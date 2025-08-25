@@ -1,0 +1,11 @@
+// echo []...
+// write arguments to standard output
+cmd echo {
+    // Provide a default value for the internationalization
+    // variables that are unset or null. (See the Base
+    // Definitions volume of POSIX.1‐2017, Section 8.2,
+    // Internationalization Variables for the precedence of
+    // internationalization variables used to determine the
+    // values of locale categories.)
+    LANG: str
+}
