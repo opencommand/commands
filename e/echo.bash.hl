@@ -1,11 +1,24 @@
-// echo []...
+// @hulo:build bash
+
+// echo [messages]...
 // write arguments to standard output
 cmd echo {
-    // Provide a default value for the internationalization
-    // variables that are unset or null. (See the Base
-    // Definitions volume of POSIX.1‐2017, Section 8.2,
-    // Internationalization Variables for the precedence of
-    // internationalization variables used to determine the
-    // values of locale categories.)
-    LANG: str
+    messages: Message[]
+
+    echo($this.messages) throws EchoExitStatus -> str
+}
+
+type Message = str
+
+enum EchoExitStatus extends Error {
+    success(0, "Successful completion.")
+    error { val: num, msg: str = "An error occurred." }
+}
+
+fn test() {
+    try {
+        echo "Hello World";
+    } catch (err: EchoExitStatus) {
+        echo ${err.val} ${err.msg}
+    }
 }
