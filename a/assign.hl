@@ -1,0 +1,45 @@
+// @hulo:build batch
+
+/**
+ * Assigns a drive letter or mount point to the volume with focus. 
+ * Can also change the drive letter associated with a removable drive.
+ * 
+ * Note: 
+ * - A volume must be selected first using 'select volume' command
+ * - Cannot assign drive letters to:
+ *   - System volumes
+ *   - Boot volumes
+ *   - Volumes containing paging files
+ *   - OEM partitions
+ *   - GPT partitions (except basic data partitions)
+ */
+@command("assign [<drive> | <mount>] [noerr]")
+cmd assign {
+    /**
+     * -d, --drive-letter, --letter, --drive
+     * Specifies the drive letter to assign to the volume.
+     * Format: letter=<d> (where <d> is a single letter a-z)
+     */
+    @Serialize("letter={}")
+    drive: str
+
+    /**
+     * --mount, --mount-path, -m
+     * Specifies the mount point path to assign to the volume.
+     * Format: mount=<path>
+     */
+    @Serialize("mount={}")
+    mount: str
+
+    /**
+     * --noerr
+     * For scripting only - continues processing commands on error.
+     * Without this parameter, errors cause immediate exit with error code.
+     */
+    @Serialize("noerr")
+    continue-on-error: bool
+}
+
+fn test_assign() {
+    assign --letter "e";
+}

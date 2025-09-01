@@ -1,3 +1,5 @@
+// @hulo:build batch
+
 // at [computername] [[id] [delete] | [delete] [yes]]
 // at [computername] <time> [interactive] [every | next] <command>
 cmd at {

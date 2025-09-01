@@ -1,0 +1,31 @@
+// @hulo:build batch
+
+// assoc [ext] [filetype]
+@Serialize("assoc {if:ext}{ext}{/if} {if:filetype}={filetype}{/if}")
+cmd assoc {
+    // -h, --help
+    // Display a short help about the command and exit.
+    @Serialize("/?")
+    help: bool
+
+    // Specifies the file name extension.
+    @Option("ext")
+    ext: str
+
+    // Specifies the file type to associate with the specified file name extension.
+    @Option("filetype")
+    filetype: str
+
+    assoc($help)
+
+    assoc($ext)
+
+    assoc($ext, $filetype)
+}
+
+fn test_assoc() {
+    assoc ".txt";
+    assoc ".bak";
+    assoc ".log" "txtfile";
+    assoc "." "txtfile";
+}
