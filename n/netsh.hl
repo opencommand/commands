@@ -1,0 +1,176 @@
+// @hulo:build batch
+
+// netsh [OPTIONS] [COMMAND]
+// Network shell (netsh) is a versatile and comprehensive command-line utility for configuring, managing, and monitoring network components and server roles on Windows and Windows Server systems. With netsh, you can view and modify network settings, automate tasks, and troubleshoot network issues locally or remotely.
+// 
+// In many scenarios, the netsh commands offer equivalent functionality to the Microsoft Management Console (MMC) snap-ins for managing networking server roles and features. This allows administrators to perform configuration and management tasks either through the graphical MMC interface or by using command-line automation.
+// 
+// For example, you can configure Network Policy Server (NPS) by using either the NPS MMC snap-in or the netsh commands in the netsh nps context. In addition, there are netsh commands for network technologies, such as for IPv6, network bridge, and Remote Procedure Call (RPC), that aren't available in Windows Server as an MMC snap-in.
+cmd netsh {
+    // -a, --alias-file
+    // Specifies that you want to return to the netsh shell after running an alias file. 
+    // An alias file is the text file that contains one or more netsh commands.
+    aliasFile: str
+
+    // -c, --context
+    // Enters the specified netsh context. 
+    // The context represents a specific set of available commands related to a particular feature or function.
+    context: str
+
+    // -r, --remote-machine
+    // Specifies that you want the command to run on a remote computer using its computer name,
+    // a fully qualified domain name (FQDN), or IP address. 
+    // The Remote Registry service must be running on the remote computer.
+    // If it's not running, Windows displays a "Network Path Not Found" error message.
+    // 
+    // If you specify -r followed by another command, netsh runs the command on the remote computer and then returns to the command prompt. 
+    // If you specify -r without another command, netsh opens in remote mode. 
+    // The process is similar to using set machine at the netsh command shell. 
+    // When you use -r, you set the target computer for the current instance of netsh only.
+    remoteMachine: str
+
+    // -u, --user
+    // Specifies that you want to run the netsh command under a specific user account using DomainName\Username format.
+    user: str
+
+    // -p, --password
+    // Specifies that you want to provide a password for the user account. 
+    // If * is used, this specifies you want to securely enter the password.
+    password: str
+
+    // -f, --script-file
+    // Specifies that you want to exit netsh after executing the commands from the script file you provide.
+    scriptFile: str
+
+    // netsh add
+    // The netsh add command is used to install helper Dynamic Link Libraries (DLL) allowing for more specialized network configurations.
+    cmd add {
+        // netsh add helper [file]
+        cmd helper {
+            // Adds a helper DLL file.
+            @option("file")
+            file: str
+        }
+    }
+
+    // netsh delete
+    // The netsh delete command is used to remove helper Dynamic Link Libraries (DLL) allowing for more specialized network configurations.
+    cmd delete {
+        // netsh delete helper [file]
+        cmd helper {
+            @option("file")
+            file: str
+        }
+    }
+
+    // netsh dhcpclient [list | help | trace]
+    // The netsh dhcpclient command is used to configure and manage settings for the DHCP client,
+    // including enabling tracing and exporting diagnostic logs.
+    cmd dhcpclient {
+        // Lists the available commands in the netsh dhcpclient context.
+        cmd list {}
+
+        // Provides help for the list of commands available in the netsh dhcpclient context.
+        cmd help {}
+
+        // Controls tracing for the DHCP client, allowing you to enable or disable it. 
+        // This feature is helpful for troubleshooting as it generates detailed logs of DHCP client activities.
+        // You can retrieve the last 100 traces to review recent DHCP interactions.
+        cmd trace {
+            cmd enable {}
+
+            cmd disable {}
+
+            cmd dump {}
+        }
+    }
+
+    cmd dnsclient {
+        cmd add {
+            cmd dnsserver {}
+
+            cmd encryption {}
+
+            cmd global {}
+
+            cmd interface {}
+        }
+
+        cmd delete {
+            cmd dnsserver {}
+
+            cmd encryption {}
+
+            cmd global {}
+
+            cmd interface {}
+        }
+
+        cmd dump {}
+
+        cmd set {
+            cmd dnsserver {}
+
+            cmd encryption {}
+
+            cmd global {}
+
+            cmd interface {}
+        }
+
+        cmd show {
+            cmd encryption {
+                // -s, --server
+                // Displays the encrypted DNS server settings from the list of statically configured secure resolvers. If no server is specified, information for all encrypted DNS servers is shown.
+                @Serialize("server={}")
+                server: IP
+            }
+
+            // Displays all configured DNS global settings.
+            cmd global {}
+
+            // Displays the current configuration and status of the DNS client.
+            cmd state {}
+        }
+
+        // -h, --help
+        // Provides help for the list of commands available in the netsh dnsclient context.
+        @Serialize("/?")
+        help: bool
+    }
+
+    // exec [file]
+    cmd exec {
+        // Loads and runs the target script file.
+        @option("file")
+        scriptFile: str
+    }
+
+    cmd namespace {
+        // Outputs a configuration script containing the current namespace policy settings.
+        // This script can be saved and used to restore settings if needed.
+        cmd dump {}
+
+        // show {effectivepolicy | policy} [namespace]
+        // Displays information about namespace policies.
+        cmd show {
+            // -n, --namespace
+            // Specifies the namespace to display policy information for.
+            @Serialize("namespace={}")
+            namespace: str
+        }
+
+        // Provides help for the list of commands available in the netsh namespace context.
+        cmd help {}
+    }
+}
+
+fn test_netsh() {
+    netsh dhcpclient list;
+    netsh dhcpclient help;
+    netsh dhcpclient trace enable;
+    netsh dhcpclient trace dump > "C:\\NetshTrace\\dhcp_trace.txt";
+    netsh namespace show effectivepolicy;
+    netsh namespace show policy;
+    netsh namespace show policy --namespace "Computer";
+}
