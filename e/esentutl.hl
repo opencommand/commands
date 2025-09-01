@@ -1,0 +1,32 @@
+// @hulo:build batch
+
+// Extensible Storage Engine utilities
+cmd esentutl {
+    // -d
+    @Serialize("/d {}")
+    d: str
+
+    // -r
+    @Serialize("/r {}")
+    r: str
+
+    // -g
+    @Serialize("/g {}")
+    g: str
+
+    // -k
+    @Serialize("/k {}")
+    k: str
+
+    // -p
+    @Serialize("/p {}")
+    p: str
+
+    // -m
+    @Serialize("/m {}")
+    m: str
+
+    // -y
+    @Serialize("/y {}")
+    y: str
+}

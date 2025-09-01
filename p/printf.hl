@@ -1,0 +1,20 @@
+// @hulo:build bash
+
+// printf [OPTIONS]
+// printf <FORMAT> [ARGUMENT]...
+// format and print data
+cmd printf {
+    // --help
+    // display this help and exit
+    help: bool
+
+    // --version
+    // output version information and exit
+    version: bool
+
+    @Option("FORMAT")
+    format: str
+
+    @Option("ARGUMENT")
+    args: any[]
+}

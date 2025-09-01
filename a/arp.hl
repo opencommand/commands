@@ -1,0 +1,63 @@
+// @hulo:build batch
+
+// arp -s [inet_addr] [eth_addr] [if_addr]
+// arp -d [inet_addr] [if_addr]
+// arp -a [inet_addr] [-N if_addr] [-v]
+cmd arp {
+    // -h, --help
+    // Displays help at the command prompt.
+    @Serialize("/?")
+    help: bool
+
+    // -s
+    s: bool
+
+    // -d
+    // Deletes the ARP entry for the specified inet_addr. 
+    // Use * as a wildcard to delete all entries.
+    d: bool
+
+    // -a
+    // Displays the current ARP entries by querying the protocol data. 
+    // If inet_addr is specified, only the ARP entry for that IP address is shown. 
+    // If multiple network interfaces use ARP, entries for each interface are displayed.
+    a: bool
+
+    // -g
+    // Functions identically to -a.
+    g: bool
+
+    // -v
+    // Displays ARP entries in verbose mode, 
+    // including additional details such as invalid entries and entries on the loopback interface.
+    v: bool
+
+    // -N
+    // Shows ARP entries for the network interface with the specified IP address (if_addr). 
+    // This parameter is case-sensitive.
+    N: bool
+
+    // Specifies the IP address to display, delete, or add to the ARP cache. 
+    // In the context of -s, it's the IP you want to associate with a MAC address.
+    @Option("inet_addr")
+    inet_addr: str
+
+    // Specifies the physical (MAC) address to associate with the IP address when using -s. 
+    // The format is six hexadecimal bytes separated by hyphens.
+    @Option("eth_addr")
+    eth_addr: str
+
+    // Specifies the IP address of the network interface whose ARP table is to be modified,
+    //  used optionally with -s and -d.
+    // If omitted, the first applicable interface is used.
+    @Option("if_addr")
+    if_addr: str
+
+    arp($s, $inet_addr, $eth_addr, $if_addr)
+}
+
+fn test_arp() {
+    arp -a;
+    arp -a -N "10.0.0.99";
+    arp -s "10.0.0.80" "00-AA-00-4F-2A-9C";
+}

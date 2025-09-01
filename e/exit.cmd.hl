@@ -1,0 +1,9 @@
+// exit [OPTIONS] [exitCode]
+cmd exit {
+    // -b
+    @Serialize("/B")
+    b: bool
+
+    @Option("exitCode")
+    exitCode: num
+}

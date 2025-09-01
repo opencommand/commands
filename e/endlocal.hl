@@ -1,0 +1,4 @@
+// @hulo:build batch
+
+// End localisation of the environment in a batch file.
+cmd endlocal {}

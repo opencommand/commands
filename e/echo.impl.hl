@@ -1,0 +1,55 @@
+import "./echo.sh" as bash
+import "./echo.cmd" as bat
+
+impl bat.echo for bash.echo {
+    cmd off {
+        off() => $this null // do nothing
+    }
+
+    cmd on {
+        on() => $this null // do nothing
+    }
+
+    echo($super.help) => $this $this.to_str()
+}
+
+fn test_bat_echo() {
+    use bat.echo = bash.echo;
+    bat.echo off; // do nothing
+    bat.echo -h;
+}
+
+impl bash.echo for bat.echo {
+    echo($this.messages) => $this ${this.message...}
+
+    echo($disableEscape, $messages) => $this ${this.message...}
+
+    // 用编译器转译 只能编译期的参数才能转吧 不然运行时未知的怎么转呢?
+    // comptime $messages 告诉编译器 要编译期的变量 要静态的
+    comptime echo($enableEscape, $messages) {
+        // 又要ast 生成多行代码片段
+        let msgs: str[] = [];
+        loop $ch in $messages {
+            // ...
+        }
+        let cmds: ast.CmdStmt[] = $msgs.foreach((m: str) => {
+            return ast.CmdStmt {
+                name: "echo",
+                args: []ast.Expr{ ast.StringLit {$m} }
+            }
+        })
+        return ast.Block {
+            body: $cmds 
+        }
+    }
+
+    echo($enableEscape, $messages) => throw Error::MethodNotImplemented
+}
+
+fn test_bash_echo() {
+    use bash.echo = bat.echo;
+    bash.echo "Hello World";
+    bash.echo -n "Hello, ";
+    bash.echo -n "World!";
+    bash.echo -E "hello\nworld";
+}

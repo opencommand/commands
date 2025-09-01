@@ -1,0 +1,107 @@
+// @hulo:build bash
+
+// abicompat [OPTIONS] [<application> <shared-library-first-version> <shared-library-second-version>]
+// check ABI compatibility
+// 
+// Description:
+//   abicompat checks that an application that links against a given
+//   shared library is still ABI compatible with a subsequent version
+//   of that library.  If the new version of the library introduces an
+//   ABI incompatibility, then abicompat hints the user at what exactly
+//   that incompatibility is.
+// 
+// Author:
+//  Dodji Seketeli
+cmd abicompat {
+    // --help
+    // Display a short help about the command and exit.
+    help: bool
+
+    // -v, --version
+    // Display the version of the program and exit.
+    version: bool
+
+    // -u, --list-undefined-symbols
+    // Display the list of undefined symbols of the application and exit.
+    listUndefinedSymbols: bool
+
+    // -b, --show-base-names
+    // In the resulting report emitted by the tool, this option
+    // makes the application and libraries be referred to by their
+    // base names only; not by a full absolute name.  This can be
+    // useful for use in scripts that wants to compare names of the
+    // application and libraries independently of what their
+    // directory names are.
+    showBaseNames: bool
+
+    // --appd, --app-debug-info-dir
+    // Set the path to the directory under which the debug
+    // information of the application is supposed to be laid out.
+    // This is useful for application binaries for which the debug
+    // info is in a separate set of files.
+    appDebugInfoDir: str
+
+    // --libd1, --lib-debug-info-dir1
+    // Set the path to the directory under which the debug
+    // information of the first version of the shared library is
+    // supposed to be laid out.  This is useful for shared library
+    // binaries for which the debug info is in a separate set of
+    // files.
+    libDebugInfoDir1: str
+
+    // --libd2, --lib-debug-info-dir2
+    // Set the path to the directory under which the debug
+    // information of the second version of the shared library is
+    // supposed to be laid out.  This is useful for shared library
+    // binaries for which the debug info is in a separate set of
+    // files.
+    libDebugInfoDir2: str
+
+    // --suppressions, --suppr
+    // Note that this option can appear
+    // multiple times on the command line; all the suppression
+    // specification files are then taken into account.
+    suppressions: str
+
+    // --no-show-locs
+    // Do not show information about where in the second shared
+    // library the respective type was changed.
+    noShowLocs: bool
+
+    // --btf
+    // When comparing binaries, extract ABI information from BTF
+    // debug information, if present.
+    btf: bool
+
+    // --ctf
+    // When comparing binaries, extract ABI information from CTF
+    // debug information, if present.
+    ctf: bool
+
+    // --fail-no-debug-info
+    // If no debug info was found, then this option makes the
+    // program to fail.  Otherwise, without this option, the program
+    // will attempt to compare properties of the binaries that are
+    // not related to debug info, like pure ELF properties.
+    failNoDebugInfo: bool
+
+    // --ignore-soname
+    // Ignore differences in the SONAME when doing a comparison
+    ignoreSoname: bool
+
+    // --weak-mode
+    // This triggers the weak mode of abicompat. In this mode, only
+    // one version of the library is required. That is, abicompat
+    // is invoked like this:
+    //  abicompat --weak-mode <the-application> <the-library>
+    weakMode: bool
+
+    @Option("application")
+    application: str
+
+    @Option("shared-library-first-version")
+    shared1: str
+
+    @Option("shared-library-second-version")
+    shared2: str
+}

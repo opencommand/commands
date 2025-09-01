@@ -1,0 +1,69 @@
+// chattr [ -RVf ] [ -v version ] [ -p project ] [ mode ] files...
+// change file attributes on a Linux file system
+// Description:
+//    chattr changes the file attributes on a Linux file system.
+// 
+//    The format of a symbolic mode is +-=[aAcCdDeFijmPsStTux].
+// 
+//    The operator '+' causes the selected attributes to be added to the
+//    existing attributes of the files; '-' causes them to be removed;
+//    and '=' causes them to be the only attributes that the files have.
+// 
+//    The letters 'aAcCdDeFijmPsStTux' select the new attributes for the
+//    files: append only (a), no atime updates (A), compressed (c), no
+//    copy on write (C), no dump (d), synchronous directory updates (D),
+//    extent format (e), case-insensitive directory lookups (F),
+//    immutable (i), data journaling (j), don't compress (m), project
+//    hierarchy (P), secure deletion (s), synchronous updates (S), no
+//    tail-merging (t), top of directory hierarchy (T), undeletable (u),
+//    and direct access for files (x).
+// 
+//    The following attributes are read-only, and may be listed by
+//    lsattr(1) but not modified by chattr: encrypted (E), indexed
+//    directory (I), inline data (N), and verity (V).
+// 
+//    Not all flags are supported or utilized by all file systems; refer
+//    to file system-specific man pages such as btrfs(5), ext4(5),
+//    mkfs.f2fs(8), and xfs(5) for more file system-specific details.
+// Author:
+//    chattr was written by Remy Card <Remy.Card@linux.org>.  It is
+//    currently being maintained by Theodore Ts'o <tytso@alum.mit.edu>.
+cmd chattr {
+    // Recursively change attributes of directories and their contents.
+    R: bool
+
+    // Be verbose with chattr's output and print the program version.
+    V: bool
+
+    // Suppress most error messages.
+    f: bool
+
+    // -v
+    // Set the file's version/generation number.
+    v: str
+
+    // -p
+    // Set the file's project number.
+    p: str
+
+    @Option("MODE")
+    attrs: Attr[]
+}
+
+type Attr = 
+    // A file with the 'a' attribute set can only be opened in
+    // append mode for writing.  Only the superuser or a process
+    // possessing the CAP_LINUX_IMMUTABLE capability can set or
+    // clear this attribute.
+    '+a' | '-a' | '=a'
+  | '+i' | '-i' | '=i'
+  | '+A' | '-A' | '=A'
+  | '+c' | '-c' | '=c'
+  | '+s' | '-s' | '=s'
+  | '+u' | '-u' | '=u'
+  | '+d' | '-d' | '=d';
+
+fn test_chattr() {
+    chattr "-R" "+i" "/etc/important/"
+    chattr "+i" "/etc/shadow"
+}

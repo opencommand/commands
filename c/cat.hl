@@ -1,0 +1,55 @@
+// @hulo:build bash
+
+// cat [OPTIONS]... [FILE]...
+cmd cat {
+    // -A, --show-all
+    // equivalent to -vET
+    showAll: bool
+
+    // -b, --number-nonblank
+    // number nonempty output lines, overrides -n
+    numberNonBlank: bool
+
+    // -e
+    // equivalent to -vE
+    e: bool
+
+    // -E, --show-ends
+    // display $ at end of each line
+    showEnds: bool
+
+    // -n, --number
+    // number all output lines
+    number: num
+
+    // -s, --squeeze-blank
+    // suppress repeated empty output lines
+    squeezeBlank: bool
+
+    // -t
+    // equivalent to -vT
+    t: bool
+
+    // -T, --show-tabs
+    // display TAB characters as ^I
+    showTabs: bool
+
+    // -u
+    // ignored
+    u: bool
+
+    // -v, --show-nonprinting
+    // use ^ and M- notation, except for LFD and TAB
+    showNonPrinting: bool
+
+    // --help
+    // display this help and exit
+    help: bool
+
+    // --version
+    // output version information and exit
+    version: bool
+
+    @Option("FILE")
+    files: str[]
+}

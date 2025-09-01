@@ -1,0 +1,40 @@
+// @hulo:build bash
+
+// echo [messages]...
+// write arguments to standard output
+cmd echo {
+    messages: Message[]
+
+    // -n
+    noNewLine: bool
+
+    // -e
+    enableEscape: bool
+
+    // -E
+    disableEscape: bool
+
+    echo($messages) throws EchoExitStatus -> str
+
+    echo($enableEscape, $messages) throws EchoExitStatus -> str
+
+    echo($disableEscape, $messages) throws EchoExitStatus -> str
+}
+
+// TODO ENVIRONMENT VARIABLES
+
+type Message = any
+
+enum EchoExitStatus extends Error {
+    success(0, "Successful completion.")
+    error { val: num, msg: str = "An error occurred." }
+}
+
+fn test() {
+    try {
+        echo "Hello World";
+        c".bashrc"[""]
+    } catch (err: EchoExitStatus) {
+        echo ${err.val} ${err.msg}
+    }
+}

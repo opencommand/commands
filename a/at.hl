@@ -1,0 +1,50 @@
+// at [computername] [[id] [delete] | [delete] [yes]]
+// at [computername] <time> [interactive] [every | next] <command>
+cmd at {
+    @Serialize("\\{}")
+    // Specifies a remote computer. 
+    // If you omit this parameter, at schedules the commands and programs on the local computer.
+    computername: str
+
+    // --detele, -d
+    // Cancels a scheduled command. 
+    // If you omit ID, all of the scheduled commands on the computer are canceled.
+    delete: bool
+
+    // --yes, -y
+    // Answers yes to all queries from the system when you delete scheduled events.
+    yes: bool
+
+    // Specifies the time when you want to run the command. 
+    // time is expressed as Hours:Minutes in 24-hour notation (that is, 00:00 (midnight) through 23:59).
+    @Option("time")
+    time: Time
+
+    // Specifies the identification number assigned to a scheduled command.
+    @Option("id")
+    id: num;
+
+    // -i, --interactive
+    // Allows command to interact with the desktop of the user who is logged on at the time Command runs.
+    interactive: bool
+
+    // --every
+    // Runs command on every specified day or days of the week or month (for example, every Thursday, or the third day of every month).
+    @Serialize("/every:{*}")
+    every: Date[] | num[]
+
+    // Runs command on the next occurrence of the day (for example, next Thursday).
+    @Serialize("/next:{*}")
+    next: Date[] | num[]
+
+    @Option("command")
+    command: Command
+}
+
+fn test_at() {
+    at "marketing";
+    at "corp" 3;
+    at "corp" "8:00" -i net share reports "marketing\\reports" >> "maintenance\\reports\\corp.txt";
+    at "marketing" "00:00" --every [5, 10, 15, 20, 25, 30] archive;
+    at --delete;
+}

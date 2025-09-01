@@ -1,0 +1,6 @@
+// @hulo:build batch
+
+// Delete one or more files.
+cmd del {
+    
+}
