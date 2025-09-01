@@ -1,6 +1,7 @@
 // @hulo:build batch
 
 /**
+ * assign [<drive> | <mount>] [noerr]
  * Assigns a drive letter or mount point to the volume with focus. 
  * Can also change the drive letter associated with a removable drive.
  * 
@@ -13,7 +14,6 @@
  *   - OEM partitions
  *   - GPT partitions (except basic data partitions)
  */
-@command("assign [<drive> | <mount>] [noerr]")
 cmd assign {
     /**
      * -d, --drive-letter, --letter, --drive

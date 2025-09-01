@@ -1,0 +1,9 @@
+// @hulo:build batch
+
+// Clears the Command Prompt window.
+cmd cls {
+    // -h, --help
+    // Displays help at the command prompt.
+    @Serialize("/?")
+    help: bool
+}

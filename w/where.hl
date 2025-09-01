@@ -1,0 +1,39 @@
+// @hulo:build batch
+
+// where [OPTIONS] <PATTERN...>
+// Displays the location of files that match the given search pattern.
+cmd where {
+    // -r, --dir
+    // Indicates a recursive search, starting with the specified directory.
+    @Serialize("/r {}")
+    dir: str
+
+    // -q
+    // Returns an exit code (0 for success, 1 for failure) without displaying the list of matched files.
+    @Serialize("/q")
+    q: bool
+
+    // -f
+    // Displays the results of the where command in quotation marks.
+    @Serialize("/f")
+    f: bool
+
+    // -t
+    // Displays the file size and the last modified date and time of each matched file.
+    @Serialize("/t")
+    t: bool
+
+    @Option("pattern")
+    pattern: str[]
+
+    // -h, --help
+    // Displays help at the command prompt.
+    @Serialize("/?")
+    help: bool
+}
+
+fn test_where() {
+    where -r "c:" "test";
+    where "\$public:*.*";
+    where -r "\\computer1\c" "notepad.*";
+}

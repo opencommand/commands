@@ -1,0 +1,9 @@
+// @hulo:build batch
+
+// Displays the operating system version number. 
+// This command is supported in the Windows Command prompt (Cmd.exe), 
+// but not in any version of PowerShell.
+cmd ver {
+    @Serialize("/?")
+    help: bool
+}

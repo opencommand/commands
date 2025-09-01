@@ -1,0 +1,174 @@
+// @hulo:build batch
+
+// xcopy <Source> [<Destination>] [OPTIONS]
+cmd xcopy {
+    // Specifies the location and names of the files you want to copy. 
+    // This parameter must include either a drive or a path.
+    @Option("Source")
+    source: str
+
+    // Specifies the destination of the files you want to copy. 
+    // This parameter can include a drive letter and colon, a directory name, 
+    // a file name, or a combination of these.
+    @Option("Destination")
+    destination: str?
+
+    //Displays the following message and waits for your response before starting to copy files:
+    // Press any key to begin copying file(s)
+    @Serialize("/w")
+    w: bool
+
+    // Prompts you to confirm whether you want to create each destination file.
+    @Serialize("/p")
+    p: bool
+
+    // Ignores errors.
+    @Serialize("/c")
+    c: bool
+
+    // Verifies each file as it is written to the destination file to make sure 
+    // that the destination files are identical to the source files.
+    @Serialize("/v")
+    v: bool
+
+    // Suppresses the display of xcopy messages.
+    @Serialize("/q")
+    q: bool
+
+    // Displays source and destination file names while copying.
+    @Serialize("/f")
+    f: bool
+
+    // Generates a list of files that are to be copied, but doesn't actively copy the files.
+    @Serialize("/l")
+    l: bool
+
+    // Creates decrypted destination files when the destination doesn't support encryption.
+    @Serialize("/g")
+    g: bool
+
+    // Copies source files changed on or after the specified date only. 
+    // If you don't include a MM-DD-YYYY value, xcopy copies all source files that are newer than existing destination files. This command-line option allows you to update files that have changed.
+    @Serialize("/d:{}")
+    d: Date
+
+    // Copies files from source that exist on destination only.
+    @Serialize("/u")
+    u: bool
+
+    // If source is a directory or contains wildcards and destination doesn't exist,
+    // xcopy assumes destination specifies a directory name and creates a new directory. 
+    // Then, xcopy copies all specified files into the new directory. 
+    // By default, xcopy prompts you to specify whether destination is a file or a directory.
+    @Serialize("/i")
+    i: bool
+
+    // Copies directories and subdirectories, unless they're empty. 
+    // If you omit /s, xcopy works within a single directory.
+    @Serialize("/s")
+    s: bool
+
+    // Copies all subdirectories, even if they're empty. 
+    // Use /e with the /s and /t command-line options.
+    @Serialize("/e")
+    e: bool
+
+    // Copies the subdirectory structure (that is, the tree) only, not files.
+    // To copy empty directories, you must include the /e command-line option.
+    @Serialize("/t")
+    t: bool
+
+    // Copies files and retains the read-only attribute on destination files if present on the source files.
+    // By default, xcopy removes the read-only attribute.
+    @Serialize("/k")
+    k: bool
+
+    // Copies read-only files.
+    @Serialize("/r")
+    r: bool
+
+    // Copies files with hidden and system file attributes.
+    // By default, xcopy doesn't copy hidden or system files
+    @Serialize("/h")
+    h: bool
+
+    // Copies only source files that have their archive file attributes set.
+    // /a doesn't modify the archive file attribute of the source file. 
+    // For information about how to set the archive file attribute by using attrib, see Related links.
+    @Serialize("/a")
+    a: bool
+
+    // Copies source files that have their archive file attributes set. 
+    // Unlike /a, /m turns off archive file attributes in the files that are specified in the source. 
+    // For information about how to set the archive file attribute by using attrib, see Related links.
+    @Serialize("/m")
+    m: bool
+
+    // Creates copies by using the NTFS short file or directory names. 
+    // /n is required when you copy files or directories from an NTFS volume to a FAT volume or 
+    // when the FAT file system naming convention (that is, 8.3 characters) is required on the destination file system. 
+    // The destination file system can be FAT or NTFS.
+    @Serialize("/n")
+    n: bool
+
+    // Copies file ownership and discretionary access control list (DACL) information.
+    @Serialize("/o")
+    o: bool
+
+    // Copies file audit settings and system access control list (SACL) information (implies /o).
+    @Serialize("/x")
+    x: bool
+
+    // Specifies a list of files. At least one file must be specified. 
+    // Each file contains search strings with each string on a separate line in the file. 
+    // When any of the strings match any part of the absolute path of the file to be copied,
+    // that file is excluded from being copied. For example, specifying the string obj will exclude all files underneath the directory obj or all files with the .obj extension.
+    @Serialize("/exclude:{*}")
+    exclude: str[]
+
+    // Suppresses prompting to confirm that you want to overwrite an existing destination file.
+    @Serialize("/y")
+    y: bool
+
+    // Prompts to confirm that you want to overwrite an existing destination file.
+    @Serialize("/-y")
+    _y: bool
+
+    // Copies over a network in restartable mode.
+    @Serialize("/z")
+    z: bool
+
+    // Copies the symbolic link instead of the files.
+    // This parameter was introduced in Windows Vista®.
+    @Serialize("/b")
+    b: bool
+
+    // Copies files without buffering. Recommended for very large files.
+    // This parameter was added in Windows Server 2008 R2.
+    @Serialize("/j")
+    j: bool
+
+    // Request network compression during file transfer where applicable.
+    @Serialize("/compress")
+    compress: bool
+
+    // Enables or disables retaining the sparse state of files during copy process. 
+    // If both parameters are specified, /-sparse overrides /sparse.
+    @Serialize("{if:sparse}/sparse{else}/-sparse{/if}")
+    sparse: bool
+
+    // Doesn't attempt block cloning as an optimization.
+    @Serialize("/noclone")
+    noclone: bool
+
+    // -h, --help
+    // Displays help at the command prompt.
+    @Serialize("/?")
+    help: bool
+}
+
+fn test_xcopy() {
+    xcopy "a:" "b:" -s -e;
+    xcopy "\\rawdata" "\\reports" -d "12-29-1993";
+    xcopy ".\\toc*.yml" "..\\..\\Copy-To\\" -s -y;
+}
