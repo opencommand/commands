@@ -1,0 +1,121 @@
+// @hulo:build batch
+
+// dir [directory] [OPTIONS]
+// Displays a list of a directory's files and subdirectories. 
+// If used without parameters, this command displays the disk's volume label and serial number, 
+// followed by a list of directories and files on the disk (including their names and the date and time each was last modified). 
+// For files, this command displays the name extension and the size in bytes. 
+// This command also displays the total number of files and directories listed, their cumulative size, and the free space (in bytes) remaining on the disk.
+cmd dir {
+    // [<drive>:][<path>][<filename>]
+    @option("directory")
+    directory: str
+
+    // -p
+    // Displays one screen of the listing at a time. To see the next screen, press any key.
+    @serialize("/p")
+    p: bool
+
+    // -q
+    // Displays file ownership information.
+    @Serialize("/q")
+    q: bool
+
+    // -w
+    // Displays the listing in wide format, with as many as five file names or directory names on each line.
+    @Serialize("/w")
+    w: bool
+
+    // -d
+    // Displays the listing in the same format as /w, but the files are sorted by column.
+    @Serialize("/d")
+    d: bool
+
+    // -a
+    // Displays only the names of those directories and files with your specified attributes. 
+    // If you don't use this parameter, the command displays the names of all files except hidden and system files. 
+    // If you use this parameter without specifying any attributes, the command displays the names of all files, 
+    // including hidden and system files. The list of possible attributes values are:
+    // d - Directories
+    // h - Hidden files
+    // s - System files
+    // l - Reparse points
+    // r - Read-only files
+    // a - Files ready for archiving
+    // i - Not content indexed files
+    // You can use any combination of these values, but don't separate your values using spaces. Optionally you can use a colon (:) separator, or you can use a hyphen (-) as a prefix to mean, "not". For example, using the -s attribute won't show the system files.
+    @Serialize("/a:{}")
+    a: str
+
+    // -o
+    // Sorts the output according to sortorder, which can be any combination of the following values:
+    // n - Alphabetically by name
+    // e - Alphabetically by extension
+    // g - Group directories first
+    // s - By size, smallest first
+    // d - By date/time, oldest first
+    // Use the - prefix to reverse the sort order
+    // Multiple values are processed in the order in which you list them. Don't separate multiple values with spaces, but you can optionally use a colon (:).
+    // If sortorder isn't specified, dir /o lists the directories alphabetically, followed by the files, which are also sorted alphabetically.
+    @Serialize("/o:{}")
+    o: str
+
+    // -t
+    // Specifies which time field to display or to use for sorting. The available timefield values are:
+    // c - Creation
+    // a - Last accessed
+    // w - Last written
+    @Serialize("/t:{}")
+    t: str
+
+    // -s
+    // Lists every occurrence of the specified file name within the specified directory and all subdirectories.
+    @Serialize("/s")
+    s: bool
+
+    // -b
+    // Displays a bare list of directories and files, with no additional information. The /b parameter overrides /w.
+    @Serialize("/b")
+    b: bool
+
+    // -l
+    // Displays unsorted directory names and file names, using lowercase.
+    @Serialize("/l")
+    l: bool
+
+    // -n
+    // Displays a long list format with file names on the far right of the screen.
+    @Serialize("/n")
+    n: bool
+
+    // -x
+    // Displays the short names generated for non-8dot3 file names. The display is the same as the display for /n, but the short name is inserted before the long name.
+    @Serialize("/x")
+    x: bool
+
+    // -c
+    // Displays the thousand separator in file sizes. This is the default behavior. Use /-c to hide separators.
+    @Serialize("/c")
+    c: bool
+
+    // --four
+    // Displays years in four-digit format.
+    @Serialize("/4")
+    four: bool
+
+    // -r
+    // Display alternate data streams of the file.
+    @Serialize("/r")
+    r: bool
+
+    // -h, --help
+    // Displays help at the command prompt.
+    @Serialize("/?")
+    help: bool
+}
+
+fn test_dir() {
+    dir -swopa "-d"; // dir -s -w -o -p -a "-d";
+
+    dir "c:\\*.txt" -wosp; // dir "c:\\*.txt" -w -o -s -p;
+}

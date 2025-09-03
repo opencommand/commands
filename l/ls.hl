@@ -1,0 +1,260 @@
+// ls [OPTION]... [FILE]...
+// list directory contents
+cmd ls {
+    // -a, --all
+    // do not ignore entries starting with .
+    all: bool
+
+    // -A, --almost-all
+    // do not list implied . and ..
+    almostAll: bool
+
+    // --author
+    // with -l, print the author of each file
+    author: bool
+
+    // -b, --escape
+    // print octal escapes for nongraphic characters
+    escape: bool
+
+    // --block-size
+    // use SIZE-byte blocks. See SIZE format below
+    @Serialize("--block-size={}")
+    blockSize: str
+
+    // -B, --ignore-backups
+    // do not list implied entries ending with ~
+    ignoreBackups: bool
+
+    // -c
+    // with -lt: sort by, and show, ctime (time of last modification of file status information) with -l: show ctime and sort by name otherwise: sort by ctime
+    c: bool
+
+    // -C
+    // list entries by columns
+    C: bool
+
+    // --color
+    // colorize the output. WHEN defaults to 'always' or can be 'never' or 'auto'
+    @Serialize("--color={}")
+    color: str
+
+    // -d, --directory
+    // list directory entries instead of contents, and do not dereference symbolic links
+    directory: bool
+
+    // -D, --dired
+    // generate output designed for Emacs' dired mode
+    dired: bool
+
+    // -f
+    // do not sort, enable -aU, disable -ls --color
+    f: bool
+
+    // -F, --classify
+    // append indicator (one of */=>@|) to entries
+    classify: bool
+
+    // --file-type
+    // likewise, except do not append '*'
+    fileType: bool
+
+    // --format
+    // across -x, commas -m, horizontal -x, long -l, single-column -1, verbose -l, vertical -C
+    @Serialize("--format={}")
+    format: str
+
+    // --full-time
+    // like -l --time-style=full-iso
+    fullTime: bool
+
+    // -g
+    // like -l, but do not list owner
+    g: bool
+
+    // --group-directories-first
+    // group directories before files. augment with a --sort option, but any use of --sort=none (-U) disables grouping
+    groupDirectoriesFirst: bool
+
+    // -G, --no-group
+    // in a long listing, don't print group names
+    noGroup: bool
+
+    // -h, --human-readable
+    // with -l, print sizes in human readable format (e.g., 1K 234M 2G)
+    humanReadable: bool
+
+    // --si
+    // likewise, but use powers of 1000 not 1024
+    si: bool
+
+    // -H, --dereference-command-line
+    // follow symbolic links listed on the command line
+    dereferenceCommandLine: bool
+
+    // --dereference-command-line-symlink-to-dir
+    // follow each command line symbolic link that points to a directory
+    dereferenceCommandLineSymlinkToDir: bool
+
+    // --hide=PATTERN
+    // do not list implied entries matching shell PATTERN (overridden by -a or -A)
+    @Serialize("--hide={}")
+    hide: str
+
+    // --indicator-style=WORD
+    // append indicator with style WORD to entry names: none (default), slash (-p), file-type (--file-type), classify (-F)
+    @Serialize("--indicator-style={}")
+    indicatorStyle: str
+
+    // -i, --inode
+    // print the index number of each file
+    inode: bool
+
+    // -I, --ignore=PATTERN
+    // do not list implied entries matching shell PATTERN
+    @Serialize("--ignore={}")
+    ignore: str
+
+    // -k
+    // like --block-size=1K
+    k: bool
+
+    // -l
+    // use a long listing format
+    l: bool
+
+    // -L, --dereference
+    // when showing file information for a symbolic link, show information for the file the link references rather than for the link itself
+    dereference: bool
+
+    // -m
+    // fill width with a comma separated list of entries
+    m: bool
+
+    // -n, --numeric-uid-gid
+    // like -l, but list numeric user and group IDs
+    numericUidGid: bool
+
+    // -N, --literal
+    // print raw entry names (don't treat e.g. control characters specially)
+    literal: bool
+
+    // -o
+    // like -l, but do not list group information
+    o: bool
+
+    // -p, --indicator-style=slash
+    // append / indicator to directories
+    indicatorStyleSlash: bool
+
+    // -q, --hide-control-chars
+    // print ? instead of non graphic characters
+    hideControlChars: bool
+
+    // --show-control-chars
+    // show non graphic characters as-is (default unless program is 'ls' and output is a terminal)
+    showControlChars: bool
+
+    // -Q, --quote-name
+    // enclose entry names in double quotes
+    quoteName: bool
+
+    // --quoting-style
+    // use quoting style WORD for entry names: literal, locale, shell, shell-always, c, escape
+    @Serialize("--quoting-style={}")
+    quotingStyle: str
+
+    // -r, --reverse
+    // reverse order while sorting
+    reverse: bool
+
+    // -R, --recursive
+    // list subdirectories recursively
+    recursive: bool
+
+    // -s, --size
+    // print the allocated size of each file, in blocks
+    size: bool
+
+    // -S
+    // sort by file size
+    S: bool
+
+    // --sort
+    // sort by WORD instead of name: none -U, extension -X, size -S, time -t, version -v
+    @Serialize("--sort={}")
+    sort: str
+
+    // --time
+    // with -l, show time as WORD instead of modification time: atime -u, access -u, use -u, ctime -c, or status -c; use specified time as sort key if --sort=time
+    @Serialize("--time={}")
+    time: str
+
+    // --time-style
+    // with -l, show times using style STYLE: full-iso, long-iso, iso, locale, +FORMAT. FORMAT is interpreted like 'date'; if FORMAT is FORMAT1<newline>FORMAT2, FORMAT1 applies to non-recent files and FORMAT2 to recent files; if STYLE is prefixed with 'posix-', STYLE takes effect only outside the POSIX locale
+    @Serialize("--time-style={}")
+    timeStyle: str
+
+    // -t
+    // sort by modification time
+    t: bool
+
+    // -T, --tabsize
+    // assume tab stops at each COLS instead of 8
+    @Serialize("--tabsize={}")
+    tabsize: str
+
+    // -u
+    // with -lt: sort by, and show, access time with -l: show access time and sort by name otherwise: sort by access time
+    u: bool
+
+    // -U
+    // do not sort; list entries in directory order
+    U: bool
+
+    // -v
+    // natural sort of (version) numbers within text
+    v: bool
+
+    // -w, --width
+    // assume screen width instead of current value
+    @Serialize("--width={}")
+    width: str
+
+    // -x
+    // list entries by lines instead of by columns
+    x: bool
+
+    // -X
+    // sort alphabetically by entry extension
+    X: bool
+
+    // -1
+    // list one file per line
+    one: bool
+
+    // SELinux options
+    // --lcontext
+    // Display security context. Enable -l. Lines will probably be too wide for most displays.
+    lcontext: bool
+
+    // -Z, --context
+    // Display security context so it fits on most displays. Displays only mode, user, group, security context and file name.
+    context: bool
+
+    // --scontext
+    // Display only security context and file name.
+    scontext: bool
+
+    // --help
+    // display this help and exit
+    help: bool
+
+    // --version
+    // output version information and exit
+    version: bool
+
+    // files to list
+    @option("file")
+    files: list<str>
+}
